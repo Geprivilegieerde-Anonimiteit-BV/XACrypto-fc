@@ -1,4 +1,4 @@
-package main.java.de.caydenno1.xacrypto;
+package de.caydenno1.xacrypto;
 
 public class XACrypto {
     private XACrypto() {}

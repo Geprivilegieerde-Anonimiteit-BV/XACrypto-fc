@@ -1,4 +1,4 @@
-package main.java.de.caydenno1.xacrypto.encryption;
+package de.caydenno1.xacrypto.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
