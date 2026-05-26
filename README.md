@@ -2,6 +2,7 @@ A multi-purpose Cryptography library in Java. Working on it day by day, slowly. 
 
 
 Use `setopt interactivecomments` (zsh only) to disable errors like `zsh: command not found: #`
+
 Ensure Java + javac are installed, on MacOS it can be installed with Homebrew by running `brew install openjdk`
 
 To compile on MacOS 26 (may work on other OS, idk):
