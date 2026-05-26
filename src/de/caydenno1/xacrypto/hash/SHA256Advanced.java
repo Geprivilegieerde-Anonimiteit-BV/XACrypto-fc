@@ -65,4 +65,11 @@ public final class SHA256Advanced {
 
         return pd;
     }
+    public static String Byte2Hex(byte[] b) {
+        StringBuilder o = new StringBuilder(b.length * 2);
+        for (byte bi : b) {
+            o.append(String.format("%02x",b&0xff))
+        }
+        return o.toString();
+    }
 }
