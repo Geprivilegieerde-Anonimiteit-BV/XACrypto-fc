@@ -1,7 +1,7 @@
 A multi-purpose Cryptography library in Java. Working on it day by day, slowly. Someday this will become used, today is not that day.
 
 
-Use `setopt interactivecomments` (zsh only) to disable errors like `zsh: command not found: #`
+Use `setopt interactivecomments` (zsh only) to allow using `#` for comments if you see errors like `zsh: command not found: #`
 
 Ensure Java + javac are installed, on MacOS it can be installed with Homebrew by running `brew install openjdk`
 
