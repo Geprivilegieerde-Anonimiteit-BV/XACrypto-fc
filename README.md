@@ -6,9 +6,10 @@ Ensure Java + javac are installed, on MacOS it can be installed with Homebrew by
 
 To compile on MacOS 26 (may work on other OS, idk):
 
-1- git clone https://github.com/Geprivilegieerde-Anonimiteit-BV/XACrypto.git # download the git repositori
-2- mkdir -p out # create output directory
-3- javac -d out $(find src -name "*.java") # converts .java into .class bytecode
-5- jar cfe XACrypto.jar de.caydenno1.xacrypto.XACrypto -C out . # package the .class files into a .jar
-5(optional)- jar tf XACrypto.jar # view the contents of the jarfile
+1. git clone https://github.com/Geprivilegieerde-Anonimiteit-BV/XACrypto.git # download the git repository
+2. mkdir -p out # create output directory
+3. javac -d out $(find src -name "*.java") # converts .java into .class bytecode
+4. jar cfe XACrypto.jar de.caydenno1.xacrypto.XACrypto -C out . # package the .class files into a .jar
+5. (optional)- jar tf XACrypto.jar # view the contents of the jarfile
+
 XACrypto.jar is now in the project root (if u did everything correctly).
