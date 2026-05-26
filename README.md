@@ -13,3 +13,5 @@ To compile on MacOS 26 (may work on other OS, idk):
 5. (optional)- jar tf XACrypto.jar # view the contents of the jarfile
 
 XACrypto.jar is now in the project root (if u did everything correctly).
+
+-- A new release will **NOT** be published until SHA256Advanced is complete. --
