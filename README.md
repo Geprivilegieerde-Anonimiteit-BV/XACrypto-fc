@@ -13,6 +13,13 @@ To compile on MacOS 26 (may work on other OS, idk):
 4. jar cfe XACrypto.jar de.caydenno1.xacrypto.XACrypto -C out . # package the .class files into a .jar
 5. (optional)- jar tf XACrypto.jar # view the contents of the jarfile
 
-XACrypto.jar is now in the project root (if u did everything correctly).
+To compile on Windows 10:
 
--- A new release will **NOT** be published until SHA256Advanced is complete. --
+1. git clone https://github.com/Geprivilegieerde-Anonimiteit-BV/XACrypto.git && REM download the git repository
+2. mkdir out && REM create output directory
+3. dir /s /b src\*.java > sources.txt && REM create sources
+4. javac -d out @sources.txt && REM form sources into java bytecode
+5. jar cfe XACrypto.jar de.caydenno1.xacrypto.XACrypto -C out . && REM form java bytecode into jar
+6. (optional)- jar tf XACrypto.jar && view jarfile contents
+
+XACrypto.jar is now in the project root (if u did everything correctly).
