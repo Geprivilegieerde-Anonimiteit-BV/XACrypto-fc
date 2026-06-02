@@ -77,6 +77,4 @@ public class SHA1 {
         byte[] result = hash(data.getBytes(StandardCharsets.UTF_8));
         return hex(result);
     }
-
-
 }

@@ -9,6 +9,7 @@ import java.util.concurrent.RecursiveTask;
 import static de.caydenno1.xacrypto.hash.sha256.Hex.hash;
 import static de.caydenno1.xacrypto.hash.sha256.Hex.doubleHash;
 import static de.caydenno1.xacrypto.hash.ROT.ROTR;
+import de.caydenno1.xacrypto.misc.ToM;
 
 public final class SHA256 {
     private SHA256(){}
@@ -86,14 +87,6 @@ public final class SHA256 {
         System.arraycopy(a, 0, o, 0, a.length);
         System.arraycopy(b, 0, o, a.length, b.length);
         return o;
-    }
-
-    public static boolean ToM(byte[] a, byte[] b) {
-        if (a == null || b == null) return a == b;
-        if (a.length != b.length) return false;
-        int diff = 0;
-        for (int i = 0; i < a.length; i++) diff |= (a[i] ^ b[i]);
-        return diff == 0;
     }
 
     public static final class HashTask extends RecursiveTask<byte[][]>{

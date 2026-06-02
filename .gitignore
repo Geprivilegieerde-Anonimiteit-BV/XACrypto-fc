@@ -4,7 +4,12 @@ out/
 !**/src/test/**/out/
 .kotlin
 XACrypto.jar
+<<<<<<< HEAD
+tests
+.idea/
+=======
 .idea
+>>>>>>> main
 
 ### Eclipse ###
 .apt_generated
