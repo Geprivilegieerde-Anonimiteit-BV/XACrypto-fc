@@ -2,8 +2,6 @@ package de.caydenno1.xacrypto.zekerrijndael.GCM;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
 
-import java.lang.reflect.InvocationTargetException;
-
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SERPENT_SBOX;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SERPENT_IBOX;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SERPENT_PHI;

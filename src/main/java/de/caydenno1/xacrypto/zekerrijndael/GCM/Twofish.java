@@ -1,7 +1,6 @@
 package de.caydenno1.xacrypto.zekerrijndael.GCM;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
-import de.caydenno1.xacrypto.zekerrijndael.UnchangingData;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q0;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q1;

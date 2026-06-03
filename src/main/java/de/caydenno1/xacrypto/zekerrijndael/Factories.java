@@ -5,7 +5,6 @@ import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.AriaECB;
 import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.BlowfishECB;
 import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.SM4ECB;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.AES;
-import de.caydenno1.xacrypto.zekerrijndael.GCM.BlockCipher;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.GCM;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.ciphers.*;
 import java.lang.reflect.InvocationTargetException;
