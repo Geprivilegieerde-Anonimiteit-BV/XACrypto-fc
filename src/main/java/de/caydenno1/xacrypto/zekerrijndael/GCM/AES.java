@@ -5,7 +5,6 @@ import de.caydenno1.xacrypto.misc.XACryptoException;
 import java.util.Arrays;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.*;
-@SuppressWarnings("unused")
 public final class AES implements BlockCipher {
     public final int bits;
     public int kc;
