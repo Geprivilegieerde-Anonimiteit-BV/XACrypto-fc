@@ -1,9 +1,10 @@
-package de.caydenno1.xacrypto.zekerrijndael.GCM;
+package de.caydenno1.xacrypto.zekerrijndael.Global;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q0;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q1;
+import static de.caydenno1.xacrypto.zekerrijndael.Global.LE32.*;
 
 public class Twofish {
     private final int[] K = new int[40];
@@ -79,9 +80,8 @@ public class Twofish {
     public byte[] encryptBlock(byte[] in) throws XACryptoException {
         if (in.length != 16) throw new XACryptoException("twofish's minimum block size is 16 bytes :(", (int)16);
         int[] X = new int[4];
-        for (int i = 0; i < 4; i++) {
-            X[i] = read32LE(in, i * 4) ^ K[i];
-        }
+        for (int i = 0; i < 4; i++) X[i] = read32LE(in, i * 4) ^ K[i];
+
 
         for (int r = 0 ; r < 16 ; r += 2) {
             int t0 = h(X[0], S, kW);
@@ -89,7 +89,7 @@ public class Twofish {
             int f0 = t0 + t1 + K[2 * r + 8];
             int f1 = t0 + 2 * t1 + K[2 * r + 9];
             X[2] = Integer.rotateRight(X[2] ^ f0, 1);
-            X[3] = Integer.rotateLeft(X[2], 1) ^ f1;
+            X[3] = Integer.rotateLeft(X[3], 1) ^ f1;
 
             t0 = h(X[2], S, kW);
             t1 = h(Integer.rotateLeft(X[3], 8), S, kW);
@@ -106,8 +106,37 @@ public class Twofish {
         write32LE(X[1] ^ K[7], o, 12);
         return o;
     }
-    private static int read32LE(byte[] b, int off) { return (b[off] & 0xFF) | ((b[off + 1] & 0xFF) << 8) | ((b[off + 2] & 0xFF) << 16) | ((b[off + 3] & 0xFF) << 24); }
-    private static void write32LE(int v, byte[] b, int off) { for (int i = 0 ; i < 4 ; i++) b[off + i] = (byte) (v >>> (i * 8)); };
+    public byte[] decryptBlock(byte[] in) throws XACryptoException {
+        if (in.length != 16) throw new XACryptoException("min block size is 16 (twofish) :(",(int)in.length);
+        int[] X = new int[4];
+
+        X[2] = read32LE(in, 0) ^ K[4];
+        X[3] = read32LE(in, 4) ^ K[5];
+        X[0] = read32LE(in, 8) ^ K[6];
+        X[1] = read32LE(in, 12) ^ K[7];
+
+        for (int r = 14 ; r >= 0 ; r -= 2) {
+            int t0 = h(X[2], S, kW);
+            int t1 = h(Integer.rotateLeft(X[3], 8), S, kW);
+            int f0 = t0 + t1 + K[2 * r + 10];
+            int f1 = t0 + 2 * t1 + K[2 * r + 11];
+            X[0] = Integer.rotateLeft(X[0], 1) ^ f0;
+            X[1] = Integer.rotateRight(X[1] ^ f1, 1);
+
+            t0 = h(X[0], S, kW);
+            t1 = h(Integer.rotateLeft(X[1], 8), S, kW);
+            f0 = t0 + t1 + K[2 * r + 8];
+            f1 = t0 + 2 * t1 + K[2 * r + 9];
+            X[2] = Integer.rotateLeft(X[2], 1) ^ f0;
+            X[3] = Integer.rotateRight(X[3] ^ f1, 1);
+        }
+
+        byte[] o = new byte[16];
+        for (int i = 0 ; i < 4 ; i++) write32LE(X[i] ^ K[i], o, i*4);
+
+        return o;
+    }
+
     private static int gfMultMDS(int a, int b) {
         int p = 0;
         for (int i = 0 ; i < 8 ; i++) {

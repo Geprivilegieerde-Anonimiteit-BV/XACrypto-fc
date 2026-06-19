@@ -1,7 +1,5 @@
 package de.caydenno1.xacrypto.hash.sha224;
 
-import static de.caydenno1.xacrypto.hash.ROT.ROTR;
-import static de.caydenno1.xacrypto.hash.ROT.ROTL;
 import static de.caydenno1.xacrypto.hash.sha224.Helpers.ch;
 import static de.caydenno1.xacrypto.hash.sha224.Helpers.maj;
 import static de.caydenno1.xacrypto.hash.sha224.Helpers.bigSigma0;
@@ -13,7 +11,7 @@ import static de.caydenno1.xacrypto.misc.Constants.SHA224_K;
 
 public class SHA224 {
     public static byte[] digest(byte[] message) {
-        long bl = ((long) message.length);
+        long bl = ((long) message.length) * 8L;
 
         int paddingLength = 64 - (int) ((message.length + 9) % 64);
         if (paddingLength == 64) paddingLength = 0;

@@ -1,14 +1,10 @@
 package de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB;
 import de.caydenno1.xacrypto.zekerrijndael.Global.Aria;
 
-interface AriaCipher {
-    public byte[] encrypt(byte[] pln) throws XACryptoException;
-    public byte[] decrypt(byte[] cip) throws XACryptoException;
-}
-
-public class AriaECB implements AriaCipher {
+public class AriaECB implements ECB {
     private final Aria engine;
 
     public AriaECB(byte[] key) throws XACryptoException {

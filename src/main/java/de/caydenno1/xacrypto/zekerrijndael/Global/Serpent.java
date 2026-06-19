@@ -1,6 +1,7 @@
-package de.caydenno1.xacrypto.zekerrijndael.GCM;
+package de.caydenno1.xacrypto.zekerrijndael.Global;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.GCM.BlockCipher;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SERPENT_SBOX;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SERPENT_IBOX;
@@ -71,6 +72,7 @@ public class Serpent implements SerpentCipher {
             w[i] = Integer.rotateLeft(_0, 11);
         }
 
+        byte[] kb = new byte[16];
         for (int i = 0 ; i < 33 ; i++) {
             int[] group = { w[8 + 4 * i], w[8 + 4 * i + 1], w[8 + 4 * i + 2], w[8 + 4 * i + 3] };
 
@@ -78,7 +80,6 @@ public class Serpent implements SerpentCipher {
 
             SBOXify(index, group, SERPENT_SBOX);
 
-            byte[] kb = new byte[16];
             for (int j = 0 ; j < 4 ; j++) for (int k = 0; k < 4; k++) kb[j * 4 + k] = (byte) (group[j] >>> (k * 8));
 
             pack(kb, K[i]);

@@ -8,7 +8,7 @@
 
     <groupId>de.caydenno1.xacrypto</groupId>
     <artifactId>xacrypto</artifactId>
-    <version>2026.06.04_R2</version>
+    <version>2026.06.19_R1</version>
 
     <name>XACrypto</name>
     <description>A multi-purpose Cryptography library in Java.</description>
@@ -81,6 +81,19 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.caydenno1.xacrypto.XACrypto</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
 
             <plugin>

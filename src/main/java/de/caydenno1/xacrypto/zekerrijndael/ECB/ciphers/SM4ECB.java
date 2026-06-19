@@ -1,18 +1,14 @@
 package de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SM4_FK;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SM4_CK;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.SM4_SBOX;
 import static de.caydenno1.xacrypto.hash.ROT.ROTL;
 
-interface SM4Cipher {
-    byte[] encrypt(byte[] pln);
-    byte[] decrypt(byte[] cip) throws XACryptoException;
-}
-
-public class SM4ECB implements SM4Cipher {
+public class SM4ECB implements ECBExceptionless {
     public final int[] encRK = new int[32];
     public final int[] decRK = new int[32];
 

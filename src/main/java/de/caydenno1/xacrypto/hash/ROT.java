@@ -4,6 +4,9 @@ public class ROT {
     public static int ROTR(int x, int n){
         return (x >>> n) | (x << (32 - n));
     }
+    public static long ROTR64(long x, int n){
+        return (x >>> n) | (x << (64 - n));
+    }
     public static int ROTL(int x, int n){
         return (x << n) | (x >>> (32 - n));
     }

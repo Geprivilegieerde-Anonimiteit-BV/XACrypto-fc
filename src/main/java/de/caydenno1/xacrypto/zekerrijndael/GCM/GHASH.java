@@ -14,24 +14,23 @@ public class GHASH {
     }
 
     public byte[] compute(byte[] aad, byte[] cip){
-        byte[] Y = new byte[16];
-        Y = proc(Y, aad);
+        byte[] Y = proc(new byte[16], aad);
         Y = proc(Y, cip);
         byte[] lenBlock = buildLenBlock(
                 aad.length * 8L,
                 cip.length * 8L
         );
-        Y = xor(Y, lenBlock);
+        xor(Y, lenBlock);
 
         Y = multi(Y,H);
         return Y;
     }
     private byte[] proc(byte[] Y, byte[] in) {
+        byte[] bloc = new byte[16];
         for (int off = 0; off < in.length; off+=16){
-            byte[] bloc = new byte[16];
             int len = Math.min(16, in.length - off);
             System.arraycopy(in, off, bloc, 0, len);
-            Y = xor(Y, bloc);
+            xor(Y, bloc);
             Y = multi(Y, H);
         }
         return Y;
@@ -43,13 +42,13 @@ public class GHASH {
             int byindex = bit / 8;
             int biindex = 7 - (bit%8);
 
-            if (((X[byindex] >> biindex) & 1) == 1) Z = xor(Z,V);
+            if (((X[byindex] >> biindex) & 1) == 1) xor(Z,V);
 
             boolean isLSB1 = (V[15] & 1) != 0;
 
             RS(V);
 
-            if (isLSB1) V = xor(V,UnchangingData.R);
+            if (isLSB1) xor(V,UnchangingData.R);
         }
         return Z;
     }
@@ -64,7 +63,6 @@ public class GHASH {
         }
     }
     public byte[] compNonce(byte[] H, byte[] nonce){
-        byte[] Y = new byte[16];
         byte[] blk = new byte[16];
 
         int len = nonce.length;
@@ -90,9 +88,7 @@ public class GHASH {
             blk[i] = (byte) ((bL >>> (8 * (15-i))) & 0xFF);
         }
 
-        Y = xor(Y,blk);
-        Y = multi(Y, H);
-        return Y;
+        return multi(blk, H);
     }
     private byte[] buildLenBlock(long aad, long cipb) {
         ByteBuffer buf = ByteBuffer.allocate(16);
@@ -103,8 +99,7 @@ public class GHASH {
         return buf.array();
     }
     public byte[] xor(byte[] a, byte[] b){
-        byte[] res = new byte[16];
-        for (int i = 0 ; i < 16 ; i++) res[i] = (byte) (a[i] ^ b[i]);
-        return res;
+        for (int i = 0 ; i < 16 ; i++) a[i] ^= b[i];
+        return a;
     }
 }

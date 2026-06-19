@@ -2,13 +2,9 @@ package de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
 import de.caydenno1.xacrypto.zekerrijndael.ECB.Blowfish;
+import de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless;
 
-interface BlowfishCipher {
-    public byte[] encrypt(byte[] pln);
-    public byte[] decrypt(byte[] cip) throws XACryptoException;
-}
-
-public class BlowfishECB implements BlowfishCipher {
+public class BlowfishECB implements ECBExceptionless {
     private final Blowfish engine;
 
     public BlowfishECB(byte[] key) throws XACryptoException {

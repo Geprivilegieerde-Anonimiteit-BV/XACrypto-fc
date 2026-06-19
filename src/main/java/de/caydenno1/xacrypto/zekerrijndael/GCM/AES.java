@@ -1,7 +1,7 @@
 package de.caydenno1.xacrypto.zekerrijndael.GCM;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
-
+import static de.caydenno1.xacrypto.zekerrijndael.Global.Galois.*;
 import java.util.Arrays;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.*;
@@ -61,6 +61,64 @@ public final class AES implements BlockCipher {
         return o;
     }
 
+    public byte[] decryptBlock(byte[] input) throws XACryptoException {
+        int m = switch (bits) {
+            case 128 -> 10;
+            case 192 -> 12;
+            case 256 -> 14;
+            default -> throw new XACryptoException("only 128, 192 and 256 bit ciphers are supported atm. sorry :%");
+        };
+
+        byte[][] s = new byte[4][4];
+        for (int i = 0; i < 16; i++) s[i & 3][i >> 2] = input[i];
+
+
+        addRoundKey(s, m);
+
+        for (int r = m - 1 ; r > 0 ; r--) {
+            invShift(s);
+            invSub(s);
+            addRoundKey(s, r);
+            invMC(s);
+        }
+
+        invShift(s);
+        invSub(s);
+        addRoundKey(s, 0);
+
+        byte[] o = new byte[16];
+        for (int i = 0 ; i < 16 ; i++) o[i] = s[i & 3][i >> 2];
+
+
+        return o;
+    }
+
+    private static void invSub(byte[][] s) {
+        for (int _0 = 0 ; _0 < 4 ; _0++) for (int _1 = 0 ; _1 < 4 ; _1++) s[_0][_1] = (byte) ARIA_XB1 /*for some reason ARIA's Inverse 1 Box is the same as AES's Inverse SBOX?*/ [s[_0][_1] & 0xFF];
+    }
+
+    private static void invShift(byte[][] s) {
+        byte t;
+
+        for (int _0 = 1 ; _0 < 4 ; _0++) {
+            byte[] _1 = new byte[4];
+
+            for (int _2 = 0 ; _2 < 4 ; _2++) _1[(_2 + _0) % 4] = s[_0][_2];
+            for (int _2 = 0 ; _2 < 4 ; _2++) s[_0][_2] = _1[_2];
+        }
+    }
+
+    private static void invMC(byte[][] s) {
+        for (int _0 = 0; _0 < 4; _0++) {
+            byte a0 = s[0][_0]; byte a1 = s[1][_0]; byte a2 = s[2][_0]; byte a3 = s[3][_0];
+
+            s[0][_0] = (byte)(gm14(a0) ^ gm11(a1) ^ gm13(a2) ^ gm9(a3));
+            s[1][_0] = (byte)(gm9(a0)  ^ gm14(a1) ^ gm11(a2) ^ gm13(a3));
+            s[2][_0] = (byte)(gm13(a0) ^ gm9(a1)  ^ gm14(a2) ^ gm11(a3));
+            s[3][_0] = (byte)(gm11(a0) ^ gm13(a1) ^ gm9(a2)  ^ gm14(a3));
+        }
+    }
+
 //    private void sub(byte[][] s) {
 //        for (int c = 0; c < 4; c++) {
 //            for (int r = 0; r < 4; r++) {
@@ -115,14 +173,7 @@ public final class AES implements BlockCipher {
         }
     }
 
-    private static byte gm2(byte b) {
-        int x = b & 0xFF;
-        return (byte)((((x << 1) & 0xFF) ^ ((x & 0x80) != 0 ? 0x1b : 0)));
-    }
 
-    private static byte gm3(byte b) {
-        return (byte)(gm2(b) ^ b);
-    }
 
     private void addRoundKey(byte[][] s, int round) {
         for (int c = 0; c < 4; c++) {
