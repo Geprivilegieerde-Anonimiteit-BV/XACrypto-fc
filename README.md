@@ -1,8 +1,6 @@
 A multi-purpose Cryptography library in Java. Working on it day by day, slowly. Someday this will be complete, today is not that day.
 To be clear, this is **NOT** mean't to be a replacement/alternative to BouncyCastle. Instead, it is meant to include what BouncyCastle does not have. No code was taken from OpenSSL or BouncyCastle for that reason.
 
-### Current Objective: ZekerRijndael (custom encryption sub-library)
-
 Use `setopt interactivecomments` (zsh only) to allow using `#` for comments if you see errors like `zsh: command not found: #`
 
 Ensure Java + javac are installed, on MacOS it can be installed with Homebrew by running `brew install openjdk`
