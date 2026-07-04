@@ -11,6 +11,6 @@ To compile (these commands should work universally):
 
 1. git clone https://github.com/Geprivilegieerde-Anonimiteit-BV/XACrypto.git # download the git repository
 2. cd XACrypto # enter the directory
-3. mvn clean package # compile the package cleanly
+3. mvn clean package # first clean the directory, then package it into a jar
 
 You should find the built jar at target/XACrypto-1.0-SNAPSHOT.jar
