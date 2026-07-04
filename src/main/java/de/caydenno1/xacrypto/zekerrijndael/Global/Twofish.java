@@ -1,12 +1,13 @@
 package de.caydenno1.xacrypto.zekerrijndael.Global;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.GCM.BlockCipher;
 
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q0;
 import static de.caydenno1.xacrypto.zekerrijndael.UnchangingData.TWOFISH_Q1;
 import static de.caydenno1.xacrypto.zekerrijndael.Global.LE32.*;
 
-public class Twofish {
+public class Twofish implements BlockCipher {
     private final int[] K = new int[40];
     private final int[] S;
     private final int kW;

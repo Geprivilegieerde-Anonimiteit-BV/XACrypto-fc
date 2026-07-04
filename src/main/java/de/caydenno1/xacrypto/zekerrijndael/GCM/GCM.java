@@ -3,26 +3,20 @@ import de.caydenno1.xacrypto.misc.ToM;
 import de.caydenno1.xacrypto.misc.XACryptoException;
 import de.caydenno1.xacrypto.misc.isNull;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class GCM {
-    private final Object cip;
+    private final BlockCipher cip;
     private final GHASH gh;
-    private final Method encryptor;
 
-    public GCM(Object cip) throws XACryptoException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public GCM(BlockCipher cip) throws XACryptoException {
         this.cip = cip;
-        this.encryptor = cip.getClass().getMethod("encryptBlock", byte[].class);
-
-        byte[] H = (byte[]) this.encryptor.invoke(cip, (Object) new byte[16]);
-
+        byte[] H = cip.encryptBlock(new byte[16]);
         this.gh = new GHASH(H);
     }
 
-    public Result encrypt(byte[] pln, byte[] aad, byte[] iv) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    public Result encrypt(byte[] pln, byte[] aad, byte[] iv) throws XACryptoException {
       if (iv.length <= 0) throw new XACryptoException("iv does not have data or is corrupted :[");
       if (pln == null) pln = new byte[0];
       if (aad == null) aad = new byte[0];
@@ -38,23 +32,23 @@ public class GCM {
       return new Result(packaged,tag);
     }
     
-    public byte[] decrypt(Result res, byte[] aad) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    public byte[] decrypt(Result res, byte[] aad) throws XACryptoException {
         return dec(res, aad, 12, false);
     }
 
-    public byte[] decrypt(Result res, byte[] aad, String optflag) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    public byte[] decrypt(Result res, byte[] aad, String optflag) throws XACryptoException {
         return dec(res, aad, 12, Objects.equals(optflag, "-override"));
     }
 
-    public byte[] decrypt(Result res, byte[] aad, int ivLen) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    public byte[] decrypt(Result res, byte[] aad, int ivLen) throws XACryptoException {
         return dec(res, aad, ivLen, false);
     }
 
-    public byte[] decrypt(Result res, byte[] aad, int ivLen, String optflag) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    public byte[] decrypt(Result res, byte[] aad, int ivLen, String optflag) throws XACryptoException {
         return dec(res, aad, ivLen, Objects.equals(optflag, "-override"));
     }
 
-    private byte[] dec(Result res, byte[] aad, int ivLen, boolean override) throws XACryptoException, InvocationTargetException, IllegalAccessException {
+    private byte[] dec(Result res, byte[] aad, int ivLen, boolean override) throws XACryptoException {
         if (res.cip().length < 12) throw new XACryptoException("ciptext min len is 12 char");
         if (isNull.isNull(aad)) aad = new byte[0];
 
@@ -86,17 +80,17 @@ public class GCM {
         }
     }
 
-    private byte[] tag(byte[] aad, byte[] ct, byte[] J0) throws InvocationTargetException, IllegalAccessException {
+    private byte[] tag(byte[] aad, byte[] ct, byte[] J0) throws XACryptoException {
         byte[] S   = gh.compute(aad, ct);
-        byte[] EJ0 = (byte[]) this.encryptor.invoke(J0);
+        byte[] EJ0 = cip.encryptBlock(J0);
         for (int i = 0; i < 16; i++) S[i] ^= EJ0[i];
         return S;
     }
-    private byte[] gctr(byte[] icb, byte[] in) throws InvocationTargetException, IllegalAccessException {
+    private byte[] gctr(byte[] icb, byte[] in) throws XACryptoException {
         byte[] o = new byte[in.length];
         byte[] cnt = Arrays.copyOf(icb, 16);
         for (int i = 0 ; i < in.length ; i += 16){
-            byte[] ks = (byte[]) this.encryptor.invoke(cnt);
+            byte[] ks = cip.encryptBlock(cnt);
             int len = Math.min(16, in.length -i);
             for (int j = 0; j < len; j++) o[i + j] = (byte)(in[i + j] ^ ks[j]);
             if (i+16<in.length) cnt = inc32(cnt);

@@ -1,6 +1,7 @@
 package de.caydenno1.xacrypto.zekerrijndael.Global;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.GCM.BlockCipher;
 import de.caydenno1.xacrypto.zekerrijndael.UnchangingData;
 import de.caydenno1.xacrypto.hash.ROT;
 
@@ -9,7 +10,7 @@ interface CamelliaCipher {
     byte[] decryptBlock(byte[] in);
 }
 
-public class Camellia implements CamelliaCipher {
+public class Camellia implements CamelliaCipher, BlockCipher {
     private final long[] subkeys;
 
     public Camellia(byte[] key) throws XACryptoException {
@@ -18,7 +19,7 @@ public class Camellia implements CamelliaCipher {
 	    genKeySchedule(key);
     }
 
-    public byte[] encryptBlock(byte[] in) {
+    public byte[] encryptBlock(byte[] in) throws XACryptoException {
         return encryptBlock(in, 0, new byte[16], 0);
     }
 

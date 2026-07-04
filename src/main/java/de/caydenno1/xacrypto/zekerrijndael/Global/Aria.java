@@ -1,9 +1,10 @@
 package de.caydenno1.xacrypto.zekerrijndael.Global;
 
 import de.caydenno1.xacrypto.misc.XACryptoException;
+import de.caydenno1.xacrypto.zekerrijndael.GCM.BlockCipher;
 import de.caydenno1.xacrypto.zekerrijndael.UnchangingData;
 
-public class Aria {
+public class Aria implements BlockCipher {
     // this is NOT a cipher, more or less and encryption type/method
     private final int round;
     private final byte[][] encRK;
