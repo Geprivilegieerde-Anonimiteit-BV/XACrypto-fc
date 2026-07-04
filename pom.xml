@@ -8,7 +8,7 @@
 
     <groupId>de.caydenno1.xacrypto</groupId>
     <artifactId>xacrypto</artifactId>
-    <version>2026.06.19_R1</version>
+    <version>2026.07.04_R1</version>
 
     <name>XACrypto</name>
     <description>A multi-purpose Cryptography library in Java.</description>
