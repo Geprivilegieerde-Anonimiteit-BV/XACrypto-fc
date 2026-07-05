@@ -13,4 +13,4 @@ To compile (these commands should work universally):
 2. cd XACrypto # enter the directory
 3. mvn clean package # first clean the directory, then package it into a jar
 
-You should find the built jar at target/XACrypto-1.0-SNAPSHOT.jar
+You should find the built jar at target/xacrypto-<version>.jar
