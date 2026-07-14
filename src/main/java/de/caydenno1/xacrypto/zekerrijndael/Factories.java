@@ -23,18 +23,55 @@ public class Factories {
         public static de.caydenno1.xacrypto.zekerrijndael.GCM.GCM SerpentGCM(byte[] key) throws XACryptoException { return new SerpentGCM(key); }
     }
 
+    private static volatile boolean ecbOptIn = false;
+
+    /**
+     * Enables the use of ECB mode.
+     *
+     * <p><strong>Warning:</strong> ECB mode is insecure for
+     * almost all applications because identical plaintext blocks
+     * produce identical ciphertext blocks, leaking data patterns.
+     *
+     * <p>This method exists solely for backwards compatibility.
+     * Prefer {@link Factories.GCM} or another secure encryption mode.
+     * The contributor that has written this wishes to remain anonymous.
+     */
+    public static void allowInsecureECB() {
+        ecbOptIn = true;
+    }
+
+    private static void checkECBenabled() throws XACryptoException {
+        if (!ecbOptIn) {
+        throw new XACryptoException(
+            "ECB mode is not secure because it can leak data patterns. Call Factories.allowInsecureECB() before using ECB."
+        );
+        }
+    }
+
+/**
+ * Provides ECB mode cipher factories.
+ *
+ * <p><strong>Warning:</strong> ECB mode is insecure because identical
+ * plaintext blocks produce identical ciphertext blocks, leaking data patterns.
+ *
+ * <p>This class requires opt-in using
+ * {@link Factories#allowInsecureECB()} and exists only for backwards compatibility.
+ *
+ * @deprecated Use GCM or another secure encryption mode instead.
+ */
+    @Deprecated
     public static class ECB {
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless Blowfish(byte[] key) throws XACryptoException { return new BlowfishECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless Blowfish(byte[] key) throws XACryptoException { checkECBenabled(); return new BlowfishECB(key); }
 
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB Aria(byte[] key) throws XACryptoException { return new AriaECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB Aria(byte[] key) throws XACryptoException { checkECBenabled(); return new AriaECB(key); }
 
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless SM4(byte[] key) throws XACryptoException { return new SM4ECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless SM4(byte[] key) throws XACryptoException { checkECBenabled(); return new SM4ECB(key); }
 
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB AES(byte[] key) throws XACryptoException { return new AESECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB AES(byte[] key) throws XACryptoException { checkECBenabled(); return new AESECB(key); }
 
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB Twofish(byte[] key) throws XACryptoException { return new TwofishECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB Twofish(byte[] key) throws XACryptoException { checkECBenabled(); return new TwofishECB(key); }
 
-        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB RC6ECB(byte[] key) throws XACryptoException { return new RC6ECB(key); }
+        public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECB RC6ECB(byte[] key) throws XACryptoException { checkECBenabled(); return new RC6ECB(key); }
 
         //public static de.caydenno1.xacrypto.zekerrijndael.ECB.ciphers.interfaces.ECBExceptionless CamelliaECB(byte[] key) throws XACryptoException { return new CamelliaECB(key); }
     }
