@@ -17,7 +17,7 @@ public class XACryptoException extends Exception {
     }
     public XACryptoException(String res, int iid) {
         super(res);
-        this.id = iid;
+        this.id = iid & 0xFF;
     }
     public XACryptoException(String[] pnts, byte id){
         super(String.join("|", pnts));
