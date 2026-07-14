@@ -10,13 +10,6 @@ public class isNull {
         return Objects.isNull(v) || v == null || v == alt;
     }
     public static boolean isValidText(String s) {
-        if (s.isBlank() || s.trim().isEmpty()) return false;
-        switch (s) {
-            case "":
-            case null:
-                return false;
-            default:
-                return true;
-        }
+        return !isNull(s) && !s.isBlank();
     };
 }
