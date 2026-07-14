@@ -4,6 +4,8 @@ import de.caydenno1.xacrypto.misc.XACryptoException;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.GHASH;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.AES;
 import de.caydenno1.xacrypto.zekerrijndael.GCM.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -16,8 +18,10 @@ interface AESCipher {
 }
 
 public class AESGCM implements AESCipher {
+    private static final Logger log = LoggerFactory.getLogger(AESGCM.class);
+
     public Result encryptBlock(byte[] pln, byte[] key, byte[] nonce, byte[] aad) throws XACryptoException {
-        System.out.println("WARNING! AESGCM may not be fully functional and partially broken. I am unsure if it fully works or not.");
+        log.warn("AESGCM may not be fully functional and partially broken. I am unsure if it fully works or not.");
         AES aes = new AES(key, getKeySize(key));
         byte[] H = aes.encryptBlock(new byte[16]);
         GHASH gh = new GHASH(H);
@@ -82,7 +86,7 @@ public class AESGCM implements AESCipher {
         if (!ToM(tag, expectedTag) && !flag) {
             throw new XACryptoException("Tag does not match. USE flag \"-override\" to ignore this.");
         } else if (!ToM(tag,expectedTag) && flag) {
-            System.out.println("Continuing in insecure mode.");
+            log.warn("Continuing in insecure mode.");
         }
 
         return aes.encryptCTR(cip, J0);

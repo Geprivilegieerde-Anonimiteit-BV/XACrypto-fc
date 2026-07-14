@@ -1,12 +1,16 @@
 package de.caydenno1.xacrypto.zekerrijndael.GCM;
+
 import de.caydenno1.xacrypto.misc.ToM;
 import de.caydenno1.xacrypto.misc.XACryptoException;
 import de.caydenno1.xacrypto.misc.isNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class GCM {
+    private static final Logger log = LoggerFactory.getLogger(GCM.class);
     private final BlockCipher cip;
     private final GHASH gh;
 
@@ -63,7 +67,7 @@ public class GCM {
         if (!corr && !override) {
             throw new XACryptoException("GCM tag does not match. Use Flag -override to ignore this.",(byte)-1);
         } else if (!corr) {
-            System.out.println("GCM tag does not match. Overriding...");
+            log.warn("GCM tag does not match. Overriding...");
         }
 
         return gctr(inc32(J0), ct);

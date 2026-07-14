@@ -1,6 +1,8 @@
 package de.caydenno1.xacrypto.hash.sha;
 
 import de.caydenno1.xacrypto.misc.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 
@@ -8,9 +10,10 @@ import static de.caydenno1.xacrypto.hash.sha.Shared.INT2BYTE;
 import static de.caydenno1.xacrypto.hash.sha.Shared.hex;
 
 public class SHA0 {
-    // we really only need one file. very simple code
+    private static final Logger log = LoggerFactory.getLogger(SHA0.class);
+
     public static byte[] hash(byte[] data){
-        System.out.println("Beware, SHA0 is deprecated and cryptographically broken. Use at your own risk.");
+        log.warn("SHA0 is deprecated and cryptographically broken. Use at your own risk.");
         byte[] padded = Shared.pad(data);
 
         int a0 = Constants.SHA_H[0], a1 = Constants.SHA_H[1], a2 = Constants.SHA_H[2], a3 = Constants.SHA_H[3], a4 = Constants.SHA_H[4];
